@@ -1,0 +1,3 @@
+[submodule "Blacksee/vendor/spdlog"]
+	path = Blacksee/vendor/spdlog
+	url = https://github.com/gabime/spdlog
