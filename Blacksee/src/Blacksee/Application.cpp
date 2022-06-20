@@ -1,5 +1,5 @@
 #include "Application.h"
-namespace bs
+namespace Blacksee
 {
 
     Application::Application()

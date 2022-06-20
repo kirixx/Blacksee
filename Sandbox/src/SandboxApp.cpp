@@ -1,6 +1,6 @@
-#include <Blacksee.h>
+#include "Blacksee.h"
 
-class Sandbox : public bs::Application
+class Sandbox : public Blacksee::Application
 {
 public:
     Sandbox()
@@ -14,7 +14,7 @@ public:
     }
 };
 
-bs::Application* bs::createApplication()
+Blacksee::Application* Blacksee::createApplication()
 {
     return new Sandbox();
 }

@@ -2,9 +2,9 @@
 
 #include "Core.h"
 
-namespace bs
+namespace Blacksee
 {
-    class BLACK_SEE_API Application
+    class BLACKSEE_API Application
     {
     public:
         Application();
