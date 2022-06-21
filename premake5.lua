@@ -26,7 +26,7 @@ project "Blacksee"
 
     includedirs
     {
-        "{prj.name}/vendor/spdlog/include"
+        "%{prj.name}/vendor/spdlog/include"
     }
 
     filter "system:windows"
@@ -40,20 +40,20 @@ project "Blacksee"
             "BS_BUILD_DLL"
         }
 
-        postbuildcommand
+        postbuildcommands
         {
             ("{COPY} %{cfg.buildtarget.relpath} ../bin/" .. outputdir .. "/Sandbox")
         }
 
-     filter "configuration:Debug"
+     filter "configurations:Debug"
         defines "BS_DEBUG"
         symbols "On"
 
-     filter "configuration:Release"
+     filter "configurations:Release"
         defines "BS_RELEASE"
         optimize "On"
      
-     filter "configuration:Dist"
+     filter "configurations:Dist"
         defines "BS_DIST"
         optimize "On"
 
@@ -91,14 +91,14 @@ project "Sandbox"
             "BS_PLATFORM_WINDOWS"
         }
 
-     filter "configuration:Debug"
+     filter "configurations:Debug"
         defines "BS_DEBUG"
         symbols "On"
 
-     filter "configuration:Release"
+     filter "configurations:Release"
         defines "BS_RELEASE"
         optimize "On"
      
-     filter "configuration:Dist"
+     filter "configurations:Dist"
         defines "BS_DIST"
         optimize "On"
