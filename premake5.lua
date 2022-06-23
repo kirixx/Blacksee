@@ -9,14 +9,20 @@ workspace "Blacksee"
     }
 
 outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
+binDir = "bin/" .. outputdir
+intermidiate = "bin-int/" .. outputdir
+intermidiateBlackSee = intermidiate .. "/Blacksee"
+intermidiateSandbox = intermidiate .. "/Sandbox"
+blackseeBinDir = binDir .. "/Blacksee"
+sandboxBinDir = binDir .. "/Sandbox"
 
 project "Blacksee"
     location "Blacksee"
     kind "SharedLib"
     language "C++"
 
-    targetdir ("bin/" .. outputdir .. "/%{prj.name}")
-    objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
+    targetdir (blackseeBinDir)
+    objdir (intermidiateBlackSee)
 
     files
     {
@@ -40,11 +46,6 @@ project "Blacksee"
             "BS_BUILD_DLL"
         }
 
-        postbuildcommands
-        {
-            ("{COPY} %{cfg.buildtarget.relpath} ../bin/" .. outputdir .. "/Sandbox")
-        }
-
      filter "configurations:Debug"
         defines "BS_DEBUG"
         symbols "On"
@@ -61,8 +62,8 @@ project "Sandbox"
     location "Sandbox"
     kind "ConsoleApp"
 
-    targetdir ("bin/" .. outputdir .. "/%{prj.name}")
-    objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
+    targetdir (sandboxBinDir)
+    objdir (intermidiateSandbox)
 
     files
     {
@@ -74,6 +75,11 @@ project "Sandbox"
     {
         "Blacksee/vendor/spdlog/include",
         "Blacksee/src"
+    }
+
+    postbuildcommands
+    {
+        ("{COPY} ../" .. blackseeBinDir .. "/*.dll ../" .. sandboxBinDir)
     }
 
     links
