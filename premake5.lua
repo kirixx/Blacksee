@@ -47,7 +47,11 @@ project "Blacksee"
         }
 
      filter "configurations:Debug"
-        defines "BS_DEBUG"
+        defines 
+        {
+            "BS_DEBUG",
+            "ASSERTIONS_ENABLED"
+        }
         symbols "On"
 
      filter "configurations:Release"
@@ -98,7 +102,11 @@ project "Sandbox"
         }
 
      filter "configurations:Debug"
-        defines "BS_DEBUG"
+        defines 
+        {
+            "BS_DEBUG", 
+            "ASSERTIONS_ENABLED"
+        }
         symbols "On"
 
      filter "configurations:Release"
