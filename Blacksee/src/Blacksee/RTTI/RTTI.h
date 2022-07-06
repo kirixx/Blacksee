@@ -47,7 +47,7 @@ namespace Blacksee
         virtual const CClassId& Who() const noexcept { return Id(); }
 
         template<class T>
-        bool is() const noexcept
+        bool Is() const noexcept
         {
             return IsBaseId(T::Id()) || T::Id() == Who();
         }
