@@ -2,15 +2,15 @@
 
 #ifdef BS_PLATFORM_WINDOWS
 
-extern Blacksee::Application* Blacksee::createApplication();
+extern Blacksee::CApplication* Blacksee::CreateApplication();
 
 int main(int argc, char** argv)
 {
-    Blacksee::Log::Init();
+    Blacksee::CLog::Init();
     BS_CORE_WARN("Blacksee initialized!");
     BS_INFO("Application initialized!");
-    auto app = Blacksee::createApplication();
-    app->run();
+    auto app = Blacksee::CreateApplication();
+    app->Run();
     delete app;
 }
 

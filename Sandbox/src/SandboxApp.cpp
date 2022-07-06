@@ -1,20 +1,20 @@
 #include "Blacksee.h"
 
-class Sandbox : public Blacksee::Application
+class CSandbox : public Blacksee::CApplication
 {
 public:
-    Sandbox()
+    CSandbox()
     {
 
     }
 
-    ~Sandbox()
+    ~CSandbox()
     {
 
     }
 };
 
-Blacksee::Application* Blacksee::createApplication()
+Blacksee::CApplication* Blacksee::CreateApplication()
 {
-    return new Sandbox();
+    return new CSandbox();
 }

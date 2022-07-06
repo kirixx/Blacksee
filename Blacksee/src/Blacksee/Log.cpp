@@ -5,10 +5,10 @@
 
 namespace Blacksee
 {
-    std::shared_ptr<spdlog::logger> Log::s_ClientLogger;
-    std::shared_ptr<spdlog::logger> Log::s_CoreLogger;
+    std::shared_ptr<spdlog::logger> CLog::s_ClientLogger;
+    std::shared_ptr<spdlog::logger> CLog::s_CoreLogger;
 
-    void Log::Init()
+    void CLog::Init()
     {
         std::vector<spdlog::sink_ptr> logSinks;
         logSinks.emplace_back(std::make_shared<spdlog::sinks::stdout_color_sink_mt>());

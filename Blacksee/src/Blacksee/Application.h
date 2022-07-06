@@ -4,16 +4,16 @@
 
 namespace Blacksee
 {
-    class BLACKSEE_API Application
+    class BLACKSEE_API CApplication
     {
     public:
-        Application();
-        virtual ~Application();
+        CApplication();
+        virtual ~CApplication();
         
-        void run();
+        void Run();
 
     };
 
     // To be defined in a client
-    Application* createApplication();
+    CApplication* CreateApplication();
 }

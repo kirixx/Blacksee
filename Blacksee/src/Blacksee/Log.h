@@ -5,11 +5,11 @@
 
 namespace Blacksee
 {
-    class BLACKSEE_API Log
+    class BLACKSEE_API CLog
     {
     public:
-        Log() = default;
-        ~Log() = default;
+        CLog() = default;
+        ~CLog() = default;
         inline static std::shared_ptr<spdlog::logger> GetClientLogger() { return s_ClientLogger; }
         inline static std::shared_ptr<spdlog::logger> GetCoreLogger() { return s_CoreLogger; }
 
@@ -21,14 +21,14 @@ namespace Blacksee
     };
 }
 
-#define BS_CORE_TRACE(...) Blacksee::Log::GetCoreLogger()->trace(__VA_ARGS__)
-#define BS_CORE_INFO(...) Blacksee::Log::GetCoreLogger()->info(__VA_ARGS__)
-#define BS_CORE_WARN(...) Blacksee::Log::GetCoreLogger()->warn(__VA_ARGS__)
-#define BS_CORE_ERROR(...) Blacksee::Log::GetCoreLogger()->error(__VA_ARGS__)
-#define BS_CORE_FATAL(...) Blacksee::Log::GetCoreLogger()->fatal(__VA_ARGS__)
+#define BS_CORE_TRACE(...) Blacksee::CLog::GetCoreLogger()->trace(__VA_ARGS__)
+#define BS_CORE_INFO(...) Blacksee::CLog::GetCoreLogger()->info(__VA_ARGS__)
+#define BS_CORE_WARN(...) Blacksee::CLog::GetCoreLogger()->warn(__VA_ARGS__)
+#define BS_CORE_ERROR(...) Blacksee::CLog::GetCoreLogger()->error(__VA_ARGS__)
+#define BS_CORE_FATAL(...) Blacksee::CLog::GetCoreLogger()->fatal(__VA_ARGS__)
 
-#define BS_TRACE(...) Blacksee::Log::GetClientLogger()->trace(__VA_ARGS__)
-#define BS_INFO(...) Blacksee::Log::GetClientLogger()->info(__VA_ARGS__)
-#define BS_WARN(...) Blacksee::Log::GetClientLogger()->warn(__VA_ARGS__)
-#define BS_ERROR(...) Blacksee::Log::GetClientLogger()->error(__VA_ARGS__)
-#define BS_FATAL(...) Blacksee::Log::GetClientLogger()->fatal(__VA_ARGS__)
+#define BS_TRACE(...) Blacksee::CLog::GetClientLogger()->trace(__VA_ARGS__)
+#define BS_INFO(...) Blacksee::CLog::GetClientLogger()->info(__VA_ARGS__)
+#define BS_WARN(...) Blacksee::CLog::GetClientLogger()->warn(__VA_ARGS__)
+#define BS_ERROR(...) Blacksee::CLog::GetClientLogger()->error(__VA_ARGS__)
+#define BS_FATAL(...) Blacksee::CLog::GetClientLogger()->fatal(__VA_ARGS__)

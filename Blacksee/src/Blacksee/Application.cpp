@@ -2,17 +2,17 @@
 namespace Blacksee
 {
 
-    Application::Application()
+    CApplication::CApplication()
     {
 
     }
 
-    Application::~Application()
+    CApplication::~CApplication()
     {
 
     }
 
-    void Application::run()
+    void CApplication::Run()
     {
         while(true);
     }
