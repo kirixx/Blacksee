@@ -1,7 +1,28 @@
 #pragma once
 #include <atomic>
-#include <string>
 #include "Blacksee/Assertion.h"
+
+//generation of unique constants should not be inlined
+//should be exported from the only one place where type of instance is created
+//for each class in hierarchy, including template instances
+#define GENERATE_UNIQUE_ID()                  \
+NOINLINE static const CClassId& Id() noexcept \
+{                                             \
+    static const CClassId id;                 \
+    return id;                                \
+}
+
+//generate overloaded function to minimize code duplication
+#define DERIVED_FROM(baseClass)                                                 \
+typedef baseClass base;                                                         \
+virtual bool IsBaseId(const CClassId& baseId) const noexcept override           \
+{                                                                               \
+    return baseId == Id() || base::IsBaseId(baseId);                            \
+}                                                                               \
+virtual const CClassId& Who() const noexcept override                           \
+{                                                                               \
+    return Id();                                                                \
+}                                                                               
 
 namespace Blacksee
 {
@@ -15,15 +36,10 @@ namespace Blacksee
     class CClassId
     {
     public:
-        //generation of unique constants should not be inlined
-        //should be exported from the only one place where type of instance is created
-        //for each class in hierarchy, including template instances
-        CClassId(const std::string_view& className) noexcept
-            : mName(className)
-            , mIndex(++gLastClassIndex)
+        CClassId() noexcept
+            : mIndex(++gLastClassIndex)
         {}
 
-        inline const std::string& GetName() const noexcept { return mName; }
         inline int32_t GetIndex() const noexcept { return mIndex; }
 
         bool operator==(const CClassId& ref) const noexcept
@@ -32,17 +48,16 @@ namespace Blacksee
         }
 
     private:
-        std::string mName;
         int32_t mIndex;
     };
 
     class CDynamicType
     {
     public:
-        CDynamicType() noexcept {};
-        virtual ~CDynamicType() noexcept {};
-
-        static const CClassId& Id() noexcept;
+        CDynamicType() noexcept {}
+        virtual ~CDynamicType() noexcept {}
+        
+        GENERATE_UNIQUE_ID()
 
         virtual const CClassId& Who() const noexcept { return Id(); }
 
@@ -64,12 +79,12 @@ namespace Blacksee
             return static_cast<const T&>(*this);
         }
 
-        template<typename T>
+        /*template<typename T>
         T& Get()
         {
             ASSERT(Is<T>());
             return static_cast<T&>(*this);
-        }
+        }*/
     };
 
     // Check if X derived from Y
@@ -79,13 +94,13 @@ namespace Blacksee
         template <class Y>
         static bool From() noexcept
         {
-            return X::Id() == Y::Id() || IsDerived<class X::base>::template from<Y>();
+            return X::Id() == Y::Id() || IsDerived<class X::base>::template From<Y>();
         }
     };
 
     //Stop recursion if we faced the parent class
     template <>                              
-    struct IsDerived<CDynamicType>                
+    struct IsDerived<CDynamicType>
     {                                        
         template<class Y>                    
         static bool From() noexcept          
@@ -94,16 +109,3 @@ namespace Blacksee
         }                                    
     };
 }
-
-//generate overloaded function to minimize code duplication
-#define DERIVED_FROM(baseClass)                                                     \
-    typedef baseClass base;                                                         \
-    virtual bool IsBaseId(const Blacksee::CClassId& baseId) const noexcept override \
-    {                                                                               \
-        return baseId == Id() || base::IsBaseId(baseId);                            \
-    }                                                                               \
-    virtual const Blacksee::CClassId& Who() const noexcept override                 \
-    {                                                                               \
-        return Id();                                                                \
-    }                                                                               \
-    static const Blacksee::CClassId& Id() noexcept

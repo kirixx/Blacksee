@@ -1,6 +1,7 @@
 #pragma once
 
 #ifdef BS_PLATFORM_WINDOWS
+    #define NOINLINE __declspec(noinline)
     #ifdef BS_BUILD_DLL
         #define BLACKSEE_API __declspec(dllexport)
     #else
