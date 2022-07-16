@@ -14,7 +14,7 @@ NOINLINE static const CClassId& Id() noexcept \
 
 //generate overloaded function to minimize code duplication
 #define DERIVED_FROM(baseClass)                                                 \
-typedef baseClass base;                                                         \
+using base = baseClass;                                                         \
 virtual bool IsBaseId(const CClassId& baseId) const noexcept override           \
 {                                                                               \
     return baseId == Id() || base::IsBaseId(baseId);                            \
@@ -73,18 +73,18 @@ namespace Blacksee
         }
 
         template<typename T>
-        const T& Get()
+        const T& Get() const
         {
             ASSERT(Is<T>());
             return static_cast<const T&>(*this);
         }
 
-        /*template<typename T>
+        template<typename T>
         T& Get()
         {
             ASSERT(Is<T>());
-            return static_cast<T&>(*this);
-        }*/
+            return const_cast<T&>(static_cast<const T&>(*this).Get<T>());
+        }
     };
 
     // Check if X derived from Y
