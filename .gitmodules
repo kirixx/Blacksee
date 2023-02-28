@@ -1,6 +1,3 @@
 [submodule "Blacksee/vendor/spdlog"]
 	path = Blacksee/vendor/spdlog
 	url = https://github.com/gabime/spdlog
-[submodule "Blacksee/vendor/glfw"]
-	path = Blacksee/vendor/glfw
-	url = https://github.com/glfw/glfw
