@@ -1,6 +1,8 @@
 #pragma once
 
 #include "Core.h"
+#include <memory>
+#include "Blacksee/Window.h"
 
 namespace Blacksee
 {
@@ -12,6 +14,9 @@ namespace Blacksee
         
         void Run();
 
+    private:
+        std::unique_ptr<Window> _Window;
+        bool _IsRunning = true;
     };
 
     // To be defined in a client

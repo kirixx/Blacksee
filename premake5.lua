@@ -16,6 +16,11 @@ intermidiateSandbox = intermidiate .. "/Sandbox"
 blackseeBinDir = binDir .. "/Blacksee"
 sandboxBinDir = binDir .. "/Sandbox"
 
+IncludeDir = {}
+IncludeDir["GLFW"] = "Blacksee/vendor/GLFW/include"
+
+include "Blacksee/vendor/GLFW" 
+
 project "Blacksee"
     location "Blacksee"
     kind "SharedLib"
@@ -33,7 +38,14 @@ project "Blacksee"
     includedirs
     {
         "%{prj.name}/src", 
-        "%{prj.name}/vendor/spdlog/include"
+        "%{prj.name}/vendor/spdlog/include",
+        "%{IncludeDir.GLFW}"
+    }
+
+    links
+    {
+        "GLFW", 
+        "opengl32.lib"
     }
 
     filter "system:windows"
