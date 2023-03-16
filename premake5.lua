@@ -1,5 +1,9 @@
 workspace "Blacksee"
-    architecture "x64"
+    architecture "x86_64"
+    startproject "Sandbox"
+
+    IncludeDir = {}
+    IncludeDir["GLFW"] = "%{wks.location}/Blacksee/vendor/GLFW/include"
 
     configurations
     {
@@ -8,124 +12,25 @@ workspace "Blacksee"
         "Dist"
     }
 
+    flags
+    {
+        "MultiProcessorCompile"
+    }
+
 outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
-binDir = "bin/" .. outputdir
-intermidiate = "bin-int/" .. outputdir
-intermidiateBlackSee = intermidiate .. "/Blacksee"
-intermidiateSandbox = intermidiate .. "/Sandbox"
-blackseeBinDir = binDir .. "/Blacksee"
-sandboxBinDir = binDir .. "/Sandbox"
 
-IncludeDir = {}
-IncludeDir["GLFW"] = "Blacksee/vendor/GLFW/include"
+group "Dependencies"
+    include "Blacksee/vendor/GLFW"
+group ""
 
-include "Blacksee/vendor/GLFW" 
+group "Core"
+    include "Blacksee"
+group ""
 
-project "Blacksee"
-    location "Blacksee"
-    kind "SharedLib"
-    language "C++"
+group "Tools"
 
-    targetdir (blackseeBinDir)
-    objdir (intermidiateBlackSee)
+group ""
 
-    files
-    {
-        "%{prj.name}/src/**.h",
-        "%{prj.name}/src/**.cpp"
-    }
-
-    includedirs
-    {
-        "%{prj.name}/src", 
-        "%{prj.name}/vendor/spdlog/include",
-        "%{IncludeDir.GLFW}"
-    }
-
-    links
-    {
-        "GLFW", 
-        "opengl32.lib"
-    }
-
-    filter "system:windows"
-        cppdialect "C++20"
-        staticruntime "On"
-        systemversion "latest"
-
-        defines
-        {
-            "BS_PLATFORM_WINDOWS", 
-            "BS_BUILD_DLL"
-        }
-
-     filter "configurations:Debug"
-        defines 
-        {
-            "BS_DEBUG",
-            "ASSERTIONS_ENABLED"
-        }
-        symbols "On"
-
-     filter "configurations:Release"
-        defines "BS_RELEASE"
-        optimize "On"
-     
-     filter "configurations:Dist"
-        defines "BS_DIST"
-        optimize "On"
-
-project "Sandbox"
-    location "Sandbox"
-    kind "ConsoleApp"
-
-    targetdir (sandboxBinDir)
-    objdir (intermidiateSandbox)
-
-    files
-    {
-        "%{prj.name}/src/**.h",
-        "%{prj.name}/src/**.cpp"
-    }
-
-    includedirs
-    {
-        "Blacksee/vendor/spdlog/include",
-        "Blacksee/src"
-    }
-
-    postbuildcommands
-    {
-        ("{COPY} ../" .. blackseeBinDir .. "/*.dll ../" .. sandboxBinDir)
-    }
-
-    links
-    {
-        "Blacksee"
-    }
-
-    filter "system:windows"
-        cppdialect "C++20"
-        staticruntime "On"
-        systemversion "latest"
-
-        defines
-        {
-            "BS_PLATFORM_WINDOWS"
-        }
-
-     filter "configurations:Debug"
-        defines 
-        {
-            "BS_DEBUG", 
-            "ASSERTIONS_ENABLED"
-        }
-        symbols "On"
-
-     filter "configurations:Release"
-        defines "BS_RELEASE"
-        optimize "On"
-     
-     filter "configurations:Dist"
-        defines "BS_DIST"
-        optimize "On"
+group "Misc"
+    include "Sandbox"
+group ""

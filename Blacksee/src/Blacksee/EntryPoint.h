@@ -1,7 +1,5 @@
 #pragma once
 
-#ifdef BS_PLATFORM_WINDOWS
-
 extern Blacksee::CApplication* Blacksee::CreateApplication();
 
 int main(int argc, char** argv)
@@ -14,4 +12,3 @@ int main(int argc, char** argv)
     delete app;
 }
 
-#endif

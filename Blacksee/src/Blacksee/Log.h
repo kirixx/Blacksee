@@ -5,7 +5,7 @@
 
 namespace Blacksee
 {
-    class BLACKSEE_API CLog
+    class CLog
     {
     public:
         CLog() = default;
