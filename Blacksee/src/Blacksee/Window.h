@@ -8,15 +8,14 @@ namespace Blacksee
     struct WindowProperties
     {
         std::string Title;
-        uint32_t Width;
-        uint32_t Height;
-        bool VSync;
+        uint32_t    Width;
+        uint32_t    Height;
 
-        WindowProperties(const std::string& title = "Blacksee Engine", 
-                         uint32_t width = 1280, uint32_t height = 720, bool vsync = false)
-            :Width(width)
-            ,Height(height)
-            ,VSync(vsync)
+        WindowProperties(std::string_view Title = "Blacksee Engine", 
+                         uint32_t Width = 1280, uint32_t Height = 720)
+            :Title(Title)
+            ,Width(Width)
+            ,Height(Height)
         {
 
         }
@@ -25,6 +24,7 @@ namespace Blacksee
     class Window
     {
     public:
+        virtual void InitWindowCallbacks() = 0;
         virtual ~Window() {};
         virtual void OnUpdate() = 0;
         virtual uint32_t GetWidth() const = 0;
@@ -32,6 +32,7 @@ namespace Blacksee
 
         virtual void SetVSync(bool enabled) = 0;
         virtual bool IsVSync() const = 0;
+        
 
         static Window* Create(const WindowProperties& winprops = WindowProperties());
     };

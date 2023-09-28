@@ -9,7 +9,6 @@ namespace Blacksee
     }
 
     WindowsWindow::WindowsWindow(const WindowProperties& winprops)
-        : _Properties(winprops)
     {
         Init(winprops);
     }
@@ -28,8 +27,18 @@ namespace Blacksee
 
         _Window = glfwCreateWindow(winprops.Width, winprops.Height, winprops.Title.c_str(), nullptr, nullptr);
         glfwMakeContextCurrent(_Window);
-        glfwSetWindowUserPointer(_Window, &_Properties);
+        glfwSetWindowUserPointer(_Window, &_WindowData);
         SetVSync(true);
+    }
+
+    void WindowsWindow::InitWindowCallbacks()
+    {
+        glfwSetWindowSizeCallback(_Window, [](GLFWwindow* Window, int Width, int Height)
+        {
+            WindowData& Data = *static_cast<WindowData*>(glfwGetWindowUserPointer(Window));
+            Data.Width = Width;
+            Data.Height = Height;
+        });
     }
 
     WindowsWindow::~WindowsWindow()
@@ -46,17 +55,16 @@ namespace Blacksee
     void WindowsWindow::SetVSync(bool enabled)
     {
         glfwSwapInterval(enabled);
-        _Properties.VSync = enabled;
+        _WindowData.Vsync = enabled;
     }
 
     bool WindowsWindow::IsVSync() const
     {
-        return _Properties.VSync;
+        return _WindowData.Vsync;
     }
 
     void WindowsWindow::Shutdown()
     {
         glfwDestroyWindow(_Window);
     }
-
 }

@@ -5,7 +5,7 @@
 
 namespace Blacksee
 {
-    class WindowsWindow : public Window
+    class WindowsWindow final : public Window
     {
 
     public:
@@ -14,18 +14,29 @@ namespace Blacksee
 
         void OnUpdate() override;
         ;
-        inline uint32_t GetWidth() const override { return _Properties.Width; }
-        inline uint32_t GetHeidth() const override { return _Properties.Height; }
+        inline uint32_t GetWidth() const override { return _WindowData.Width; }
+        inline uint32_t GetHeidth() const override { return _WindowData.Height; }
 
         void SetVSync(bool enabled) override;
         bool IsVSync() const override;
 
     private:
-        virtual void Init(const WindowProperties& winprops);
-        virtual void Shutdown();
+        void Init(const WindowProperties& winprops);
+        void Shutdown();
+
+        virtual void InitWindowCallbacks() override;
 
         GLFWwindow* _Window;
 
-        WindowProperties _Properties;
+        struct WindowData
+        {
+            std::string  Title;
+            unsigned int Width;
+            unsigned int Height;
+            bool         Vsync;
+        };
+
+        WindowData _WindowData;
+
     };
 }
